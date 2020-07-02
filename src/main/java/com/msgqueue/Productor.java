@@ -1,57 +1,63 @@
 package com.msgqueue;
 
 import com.google.gson.Gson;
-import com.msgqueue.Models.Dispositivo;
+import com.msgqueue.Models.Lectura;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import org.apache.activemq.ActiveMQConnectionFactory;
 
+import javax.jms.*;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 import static spark.Spark.get;
 
 public class Productor {
-    private static final String EXCHANGE_NAME = "logs";
-    static Random random;
-    static Gson gson = new Gson();
-    static Format format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    static ConnectionFactory connectionFactory = new ConnectionFactory();
-
-    public static void main(String[] argv) throws Exception {
-        connectionFactory.setHost("localhost");
-        get("/", (request, response) -> {
-            enviarMensaje();
-            TimeUnit.SECONDS.sleep(1);
-            response.redirect("/");
-            return "";
-        });
+    public Productor() {
     }
+    static Gson gson = new Gson();
+    static Random random;
+    static Format format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-    public static void enviarMensaje() throws Exception{
-        try (Connection connection = connectionFactory.newConnection();
-             Channel channel = connection.createChannel()) {
-            channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
-            random = new Random();
-            int id = random.nextInt(1 + 1)  + 1;
-            String mensaje = nuevoDispositivo(id);
-            channel.basicPublish(EXCHANGE_NAME, "", null, mensaje.getBytes("UTF-8"));
-            System.out.println("Enviado: '" + mensaje + "'");
+    public static void enviarMensajeActive(String cola) throws JMSException {
+        /*TODO: Tomar en cuenta la implementación del failover*/
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("failover:tcp://localhost:61616");
+        javax.jms.Connection connection = factory.createConnection("admin", "admin");
+        connection.start();
+
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Queue queue = session.createQueue(cola);
+        // Creando el objeto de referencia para enviar los mensajes.
+        MessageProducer producer = session.createProducer(queue);
+
+        while(true){
+            try{
+                TimeUnit.SECONDS.sleep(2);
+                random = new Random();
+                int id = random.nextInt(1 + 1)  + 1;
+                String mensajeDispositivo = nuevaLectura(id);
+                TextMessage message = session.createTextMessage(mensajeDispositivo);
+                producer.send(message);
+                System.out.println("[X] Enviado: '" + message + "'");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static String nuevoDispositivo(int idDispositivo) {
+
+    public static String nuevaLectura(int idDispositivo) {
         String dateSrt = format.format(new Date());
         double tempreratura = generateRandom(100, 't');
         double humedad = generateRandom(100, 'h');
-        Dispositivo dispositivo = new Dispositivo(dateSrt, idDispositivo, tempreratura, humedad);
-        return gson.toJson(dispositivo);
+        Lectura lectura = new Lectura(dateSrt, idDispositivo, tempreratura, humedad);
+        return gson.toJson(lectura);
     }
-
+    /*Simulación de sensores de temperatura y humedad.*/
     public static double generateRandom(int bound, char var) {
         random = new Random();
         switch (var) {

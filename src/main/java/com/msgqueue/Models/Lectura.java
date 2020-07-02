@@ -1,15 +1,15 @@
 package com.msgqueue.Models;
 
-public class Dispositivo {
+public class Lectura {
     private String fecha;
     private int idDispositivo;
     private double temperatura;
     private double humedad;
 
-    public Dispositivo() {
+    public Lectura() {
     }
 
-    public Dispositivo(String fecha, int idDispositivo, double temperatura, double humedad) {
+    public Lectura(String fecha, int idDispositivo, double temperatura, double humedad) {
         this.fecha = fecha;
         this.idDispositivo = idDispositivo;
         this.temperatura = temperatura;

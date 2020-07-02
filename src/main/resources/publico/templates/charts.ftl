@@ -157,8 +157,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">Humedad</h3>
                             </div>
-                            <#if dispositivo??>
-                                <h4 class="card-title">${dispositivo.fecha}</h4>
+                            <#if lectura??>
+                                <h4 class="card-title">${lectura.fecha}</h4>
                             </#if>
 <#--                            <div id="chartContainer2" style="height: 300px; width: 100%;"></div>-->
 
