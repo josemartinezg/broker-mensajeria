@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -25,103 +24,103 @@
 
     <script src="/jquery.min.js"></script>
     <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
-<#--    <script>-->
-<#--        $(document).ready(function () {-->
+    <script>
+        $(document).ready(function () {
 
-<#--            var webSocket;-->
-<#--            var dps = [];-->
-<#--            var temp = 0;-->
-<#--            var hum = 0;-->
-<#--            var dps2 = [];// dataPoints-->
-<#--            var chart = new CanvasJS.Chart("chartContainer", {-->
-<#--                zoomEnabled: true,-->
-<#--                title :{-->
-<#--                    text: "Sensor Temperatura"-->
-<#--                },-->
-<#--                axisX:{-->
-<#--                    title: "Fecha",-->
-<#--                    interval: 30,-->
-<#--                    intervalType: "second"-->
+            var webSocket;
+            var dps = [];
+            var temp = 0;
+            var hum = 0;
+            var dps2 = [];// dataPoints
+            var chart = new CanvasJS.Chart("chartContainer", {
+                zoomEnabled: true,
+                title :{
+                    text: "Sensor Temperatura"
+                },
+                axisX:{
+                    title: "Fecha",
+                    interval: 30,
+                    intervalType: "second"
 
-<#--                },-->
-<#--                axisY: {-->
-<#--                    title: "Temperatura",-->
-<#--                    includeZero: false-->
-<#--                },-->
-<#--                data: [{-->
-<#--                    type: "line",-->
-<#--                    dataPoints: dps-->
-<#--                }]-->
-<#--            });-->
+                },
+                axisY: {
+                    title: "Temperatura",
+                    includeZero: false
+                },
+                data: [{
+                    type: "line",
+                    dataPoints: dps
+                }]
+            });
 
-<#--            var chart2 = new CanvasJS.Chart("chartContainer2", {-->
-<#--                zoomEnabled: true,-->
-<#--                title :{-->
-<#--                    text: "Sensor Humedad"-->
-<#--                },-->
-<#--                axisX:{-->
-<#--                    title: "Fecha",-->
-<#--                    interval: 30,-->
-<#--                    intervalType: "second"-->
+            var chart2 = new CanvasJS.Chart("chartContainer2", {
+                zoomEnabled: true,
+                title :{
+                    text: "Sensor Humedad"
+                },
+                axisX:{
+                    title: "Fecha",
+                    interval: 30,
+                    intervalType: "second"
 
-<#--                },-->
-<#--                axisY: {-->
-<#--                    title: "Humedad",-->
-<#--                    includeZero: false-->
-<#--                },-->
-<#--                data: [{-->
-<#--                    type: "line",-->
-<#--                    dataPoints: dps2-->
-<#--                }]-->
-<#--            });-->
+                },
+                axisY: {
+                    title: "Humedad",
+                    includeZero: false
+                },
+                data: [{
+                    type: "line",
+                    dataPoints: dps2
+                }]
+            });
 
-<#--            var updateInterval = 1000;-->
-<#--            var dataLength = 20; // number of dataPoints visible at any point-->
+            var updateInterval = 1000;
+            var dataLength = 20; // number of dataPoints visible at any point
 
-<#--            var updateChart = function (dataPoints) {-->
+            var updateChart = function (dataPoints) {
 
-<#--                var dp = JSON.parse(dataPoints);-->
+                var dp = JSON.parse(dataPoints);
+                console.log(dp);
+                dps.push({
+                    label: dp.fechaGeneracion,
+                    y: dp.temperatura
+                });
 
-<#--                dps.push({-->
-<#--                    label: dp.fechaGeneracion,-->
-<#--                    y: dp.temperatura-->
-<#--                });-->
-
-<#--                dps2.push({-->
-<#--                    label: dp.fechaGeneracion,-->
-<#--                    y: dp.humedad-->
-<#--                });-->
-
-
-<#--                temp = parseInt(document.getElementById("temp").innerText) + 1;-->
-<#--                document.getElementById("temp").innerText = temp.toString();-->
-
-<#--                hum = parseInt(document.getElementById("hum").innerText) + 1;-->
-<#--                document.getElementById("hum").innerText = temp.toString();-->
-
-<#--                chart.render();-->
-<#--                chart2.render();-->
-<#--            };-->
+                dps2.push({
+                    label: dp.fechaGeneracion,
+                    y: dp.humedad
+                });
 
 
+                temp = parseInt(document.getElementById("temp").innerText) + 1;
+                document.getElementById("temp").innerText = temp.toString();
 
-<#--            function socketConnect() {-->
-<#--                webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/dataSocket");-->
-<#--                webSocket.onmessage = function (datos) {-->
-<#--                    updateChart(datos.data);-->
-<#--                };-->
-<#--            }-->
+                hum = parseInt(document.getElementById("hum").innerText) + 1;
+                document.getElementById("hum").innerText = temp.toString();
 
-<#--            function connect() {-->
-<#--                if (!webSocket || webSocket.readyState === 3) {-->
-<#--                    socketConnect();-->
-<#--                }-->
-<#--            }-->
-<#--            updateChart(dataLength);-->
-<#--            setInterval(connect, updateInterval);-->
+                chart.render();
+                chart2.render();
+            };
 
-<#--        })-->
-<#--    </script>-->
+
+
+            function socketConnect() {
+                webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/lecturaSocket");
+                webSocket.onmessage = function (datos) {
+                    updateChart(datos.data);
+                };
+            }
+
+            function connect() {
+                if (!webSocket || webSocket.readyState === 3) {
+                    socketConnect();
+                }
+            }
+            updateChart(dataLength);
+            setInterval(connect, updateInterval);
+
+        })
+    </script>
 </head>
 <body class="">
 <div class="page">
@@ -148,7 +147,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Temperatura</h3>
                             </div>
-<#--                            <div id="chartContainer" style="height: 300px; width: 100%;"></div>-->
+                            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 
                         </div>
                     </div>
@@ -157,10 +156,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Humedad</h3>
                             </div>
-                            <#if dispositivo??>
-                                <h4 class="card-title">${dispositivo.fecha}</h4>
-                            </#if>
-<#--                            <div id="chartContainer2" style="height: 300px; width: 100%;"></div>-->
+                            <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
 
                         </div>
                     </div>

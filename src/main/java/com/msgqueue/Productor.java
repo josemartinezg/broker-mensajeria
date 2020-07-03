@@ -23,7 +23,7 @@ public class Productor {
     static Random random;
     static Format format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-    public static void enviarMensajeActive(String cola) throws JMSException {
+    public static void enviarMensaje(String cola) throws JMSException {
         /*TODO: Tomar en cuenta la implementación del failover*/
         ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("failover:tcp://localhost:61616");
         javax.jms.Connection connection = factory.createConnection("admin", "admin");
@@ -42,7 +42,7 @@ public class Productor {
                 String mensajeDispositivo = nuevaLectura(id);
                 TextMessage message = session.createTextMessage(mensajeDispositivo);
                 producer.send(message);
-                System.out.println("[X] Enviado: '" + message + "'");
+                System.out.println("[X] Enviado: '" + mensajeDispositivo + "'");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
