@@ -48,7 +48,7 @@ $(document).ready(function () {
 
     var dp = JSON.parse(dataPoints);
     console.log(dp);
-    dataPoints.push({
+    tempDataPoints.push({
       label: dp.fechaGeneracion,
       y: dp.temperatura
     });
