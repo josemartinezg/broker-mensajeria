@@ -1,5 +1,5 @@
-FROM openjdk:11-jdk-alpine
-ADD build/libs/queue-server1.0.jar queue-server.jar
-EXPOSE 61616
-VOLUME /h2-data
-ENTRYPOINT [ "java", "-jar", "queue-server.jar" ]
+FROM openjdk:11
+ADD build/libs/sensor-cliente.jar sensor-cliente.jar
+EXPOSE 4567
+VOLUME /tmp
+ENTRYPOINT [ "java", "-jar", "sensor-cliente.jar" ]

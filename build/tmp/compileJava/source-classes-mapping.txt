@@ -2,10 +2,10 @@ com/msgqueue/Consumidor.java
  com.msgqueue.Consumidor
 com/msgqueue/Utils/WebSocketUtil.java
  com.msgqueue.Utils.WebSocketUtil
-com/msgqueue/Controllers/QueueServerController.java
- com.msgqueue.Controllers.QueueServerController
 com/msgqueue/Productor.java
  com.msgqueue.Productor
+com/msgqueue/Controllers/QueueServerController.java
+ com.msgqueue.Controllers.QueueServerController
 com/msgqueue/Models/Lectura.java
  com.msgqueue.Models.Lectura
 com/msgqueue/Controllers/ClienteController.java
