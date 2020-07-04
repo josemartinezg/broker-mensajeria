@@ -23,6 +23,8 @@ public class Consumidor {
 
     public void conectar() throws JMSException {
         /*Gestión de conexión a una cola por un canal que se supone ya existe.*/
+//        factory = new ActiveMQConnectionFactory("admin", "admin",
+//                "failover:tcp://localhost:61616");
         factory = new ActiveMQConnectionFactory("admin", "admin",
                 "failover:tcp://sensor-queue-server:61616");
         //Inicializo la conexión

@@ -11,6 +11,7 @@ public class QueueServerController {
         String cola = " notificaciones_sensores";
         BrokerService brokerService = new BrokerService();
         try {
+            //brokerService.addConnector("tcp://localhost:61616");
             brokerService.addConnector("tcp://sensor-queue-server:61616");
             brokerService.start();
         } catch (Exception e) {
