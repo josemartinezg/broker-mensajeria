@@ -2,7 +2,8 @@ version: '3.7'
 services:
   sensor-web-client:
     image: josemartinezg/sensor-web-client
-    ports: 4567:4567
+    ports: 
+      - 4567:4567
     networks:
       - openwire-queue
     depends_on:
@@ -15,5 +16,5 @@ services:
     networks:
       - openwire-queue
 
-  networks:
-    openwire-queue:
+networks:
+  openwire-queue:
