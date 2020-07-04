@@ -24,7 +24,7 @@ public class Consumidor {
     public void conectar() throws JMSException {
         /*Gestión de conexión a una cola por un canal que se supone ya existe.*/
         factory = new ActiveMQConnectionFactory("admin", "admin",
-                "failover:tcp://localhost:61616");
+                "failover:tcp://openwire-queue:61616");
         //Inicializo la conexión
         connection = factory.createConnection();
         connection.start();

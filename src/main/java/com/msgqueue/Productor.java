@@ -25,7 +25,7 @@ public class Productor {
 
     public static void enviarMensaje(String cola) throws JMSException {
         /*TODO: Tomar en cuenta la implementación del failover*/
-        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("failover:tcp://localhost:61616");
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("failover:tcp://openwire-queue:61616");
         javax.jms.Connection connection = factory.createConnection("admin", "admin");
         connection.start();
 
